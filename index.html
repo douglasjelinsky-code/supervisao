@@ -3,308 +3,707 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#02050a" />
-  <title>SUPERVISÃO - Portal da Vigilância</title>
+  <meta name="theme-color" content="#020f0d" />
+  <meta name="description" content="Portal de Formulários - Equipe de Vigilância e Segurança" />
+  <title>SUPERVISÃO - Portal de Formulários</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Orbitron:wght@600;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
-    :root{
-      --bg:#02050a;
-      --bg2:#060f16;
-      --neon:#00ffc6;   /* cyan */
-      --neon2:#ff0058;  /* magenta/red */
-      --neon3:#9b5cff;  /* purple */
-      --txt: rgba(232,255,248,.92);
-      --muted: rgba(232,255,248,.62);
+    /* ========== RESET & BASE ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    body{
-      font-family:'Roboto', sans-serif;
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #e8fff8;
+      background: linear-gradient(135deg, #020f0d 0%, #0a1a18 50%, #020f0d 100%);
+      overflow-x: hidden;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========== BACKGROUND EFFECTS ========== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
       background:
-        radial-gradient(900px 600px at 15% 10%, rgba(0,255,198,.10), transparent 60%),
-        radial-gradient(800px 550px at 90% 20%, rgba(255,0,88,.10), transparent 60%),
-        radial-gradient(650px 550px at 45% 95%, rgba(155,92,255,.10), transparent 60%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 55%, var(--bg) 100%);
-      background-attachment: fixed;
-      color: var(--txt);
-      overflow-x:hidden;
+        radial-gradient(900px 600px at 15% 10%, rgba(0, 255, 198, 0.08), transparent 60%),
+        radial-gradient(800px 550px at 90% 20%, rgba(155, 92, 255, 0.08), transparent 60%),
+        radial-gradient(650px 550px at 45% 95%, rgba(255, 0, 88, 0.06), transparent 60%);
+      z-index: 0;
     }
 
-    /* HUD layers */
-    body::before{
-      content:'';
-      position:fixed; inset:0;
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
       background-image:
-        linear-gradient(to right, rgba(0,255,198,.08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0,255,198,.08) 1px, transparent 1px);
-      background-size:72px 72px;
-      mask-image: radial-gradient(ellipse at 50% 28%, black 0%, transparent 72%);
-      opacity:.35;
-      pointer-events:none;
-      z-index:0;
+        linear-gradient(rgba(0, 255, 198, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 198, 0.03) 1px, transparent 1px);
+      background-size: 72px 72px;
+      opacity: 0.4;
+      z-index: 0;
     }
 
-    .scanlines{
-      position:fixed; inset:0; pointer-events:none; z-index:0;
-      background: repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,.045) 0px,
-        rgba(255,255,255,.045) 1px,
-        transparent 2px,
-        transparent 6px
-      );
-      opacity:.10;
-      mix-blend-mode: overlay;
+    /* ========== LAYOUT WRAPPER ========== */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
-    .vignette{
-      position:fixed; inset:-10%; pointer-events:none; z-index:0;
-      background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.65) 85%);
+    /* ========== HEADER ========== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: linear-gradient(180deg, rgba(2, 15, 13, 0.85), rgba(2, 15, 13, 0.4));
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 255, 198, 0.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      padding: 1rem 1.5rem;
     }
 
-    .content-wrapper{ position:relative; z-index:1; }
-
-    .title-font{ font-family:'Orbitron', sans-serif; letter-spacing:.08em; }
-
-    /* “Mission” badge */
-    .security-badge{
-      background: linear-gradient(135deg, rgba(0,255,198,.20), rgba(255,0,88,.18));
-      border: 1px solid rgba(0,255,198,.28);
-      box-shadow: 0 0 26px rgba(0,255,198,.14);
+    .header-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
     }
 
-    /* Header tactical panel */
-    .header-panel{
-      background: linear-gradient(135deg, rgba(0,255,198,.12) 0%, rgba(255,255,255,.04) 45%, rgba(255,0,88,.10) 100%);
-      border: 1px solid rgba(0,255,198,.18);
-      box-shadow: 0 18px 60px rgba(0,0,0,.55);
-      position:relative;
-      overflow:hidden;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
-    .header-panel::before{
-      content:"";
-      position:absolute; inset:0;
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(0, 255, 198, 0.9), rgba(155, 92, 255, 0.5));
+      border: 1px solid rgba(0, 255, 198, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 8px 20px rgba(0, 255, 198, 0.15);
+    }
+
+    .brand h1 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      font-family: 'Space Mono', monospace;
+      color: #fff;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 255, 198, 0.3);
+      background: rgba(0, 255, 198, 0.08);
+      font-size: 12px;
+      font-family: 'Space Mono', monospace;
+      color: rgba(0, 255, 198, 0.9);
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2dff7a;
+      box-shadow: 0 0 10px rgba(45, 255, 122, 0.5);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    main {
+      flex: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 2rem 1.5rem;
+    }
+
+    /* ========== HERO SECTION ========== */
+    .hero-section {
+      background: linear-gradient(135deg, rgba(0, 255, 198, 0.1), rgba(155, 92, 255, 0.08));
+      border: 1px solid rgba(0, 255, 198, 0.2);
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
       background:
-        linear-gradient(90deg, rgba(0,255,198,.35), transparent 28%) top left/220px 2px no-repeat,
-        linear-gradient(180deg, rgba(0,255,198,.35), transparent 28%) top left/2px 220px no-repeat,
-        linear-gradient(270deg, rgba(255,0,88,.25), transparent 28%) bottom right/220px 2px no-repeat,
-        linear-gradient(0deg, rgba(255,0,88,.25), transparent 28%) bottom right/2px 220px no-repeat;
-      opacity:.95;
-      pointer-events:none;
+        linear-gradient(90deg, rgba(0, 255, 198, 0.3), transparent 28%) top left/220px 2px no-repeat,
+        linear-gradient(180deg, rgba(0, 255, 198, 0.3), transparent 28%) top left/2px 220px no-repeat,
+        linear-gradient(270deg, rgba(255, 0, 88, 0.2), transparent 28%) bottom right/220px 2px no-repeat,
+        linear-gradient(0deg, rgba(255, 0, 88, 0.2), transparent 28%) bottom right/2px 220px no-repeat;
+      opacity: 0.9;
+      pointer-events: none;
     }
 
-    /* Button / card behavior */
-    .btn-form{
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
-      position:relative;
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,.10);
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
+    .hero-content {
+      position: relative;
+      z-index: 2;
     }
 
-    .btn-form::after{
-      content:'';
-      position:absolute; inset:-35%;
-      background: linear-gradient(120deg, transparent 45%, rgba(0,255,198,.12) 55%, transparent 70%);
-      transform: rotate(10deg);
-      opacity:.65;
-      pointer-events:none;
+    .hero-icons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+      font-size: 2.5rem;
     }
 
-    .btn-form:active{ transform: scale(.99); }
+    .hero-icon {
+      animation: float 3s ease-in-out infinite;
+    }
 
-    .btn-form:hover{
+    .hero-icon:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .hero-icon:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      font-family: 'Space Mono', monospace;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: rgba(232, 255, 248, 0.8);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-divider {
+      width: 120px;
+      height: 3px;
+      background: linear-gradient(90deg, #00ffc6, #ff0058);
+      margin: 1rem auto;
+      border-radius: 999px;
+      opacity: 0.8;
+    }
+
+    .hero-tags {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      font-family: 'Space Mono', monospace;
+      color: rgba(232, 255, 248, 0.7);
+      margin-top: 1.5rem;
+    }
+
+    .hero-tag {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      background: rgba(0, 255, 198, 0.1);
+      border: 1px solid rgba(0, 255, 198, 0.2);
+    }
+
+    /* ========== FORMS GRID ========== */
+    .forms-container {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      margin-bottom: 2rem;
+    }
+
+    .forms-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .forms-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.05em;
+    }
+
+    .forms-description {
+      font-size: 0.95rem;
+      color: rgba(232, 255, 248, 0.6);
+      margin-bottom: 1rem;
+    }
+
+    .forms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .forms-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========== FORM CARD ========== */
+    .form-card {
+      display: block;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 1.75rem;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .form-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 45%, rgba(0, 255, 198, 0.1) 55%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .form-card:hover::before {
+      transform: translateX(100%);
+    }
+
+    .form-card:hover {
+      border-color: rgba(0, 255, 198, 0.4);
+      background: linear-gradient(135deg, rgba(0, 255, 198, 0.12), rgba(155, 92, 255, 0.1));
       transform: translateY(-6px);
-      box-shadow: 0 26px 55px rgba(0,0,0,.60);
-      border-color: rgba(0,255,198,.28);
+      box-shadow: 0 16px 40px rgba(0, 255, 198, 0.12);
     }
 
-    .icon-ring{
-      border: 1px solid rgba(0,255,198,.20);
-      box-shadow: 0 0 0 6px rgba(0,255,198,.06);
+    .form-icon-container {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(0, 255, 198, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 2.5rem;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 20px rgba(0, 255, 198, 0.1);
     }
 
-    .shield-icon{ animation: pulse 2s ease-in-out infinite; }
-    @keyframes pulse{
-      0%,100%{ opacity: 1; transform: scale(1); }
-      50%{ opacity: .82; transform: scale(1.05); }
+    .form-card:hover .form-icon-container {
+      box-shadow: 0 0 30px rgba(0, 255, 198, 0.2);
     }
 
-    .mono{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-      letter-spacing:.08em;
+    .form-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.05em;
+      position: relative;
+      z-index: 2;
     }
 
-    /* Mobile tweaks */
-    @media (max-width: 768px){
-      .title-font{ font-size: 1.35rem !important; }
+    .form-description {
+      font-size: 0.9rem;
+      color: rgba(232, 255, 248, 0.65);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+      position: relative;
+      z-index: 2;
     }
 
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      .shield-icon{ animation:none; }
-      .btn-form{ transition:none; }
-      .btn-form:hover{ transform:none; }
+    .form-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #00ffc6;
+      font-family: 'Space Mono', monospace;
+      position: relative;
+      z-index: 2;
+      transition: gap 0.3s ease;
+    }
+
+    .form-card:hover .form-link {
+      gap: 0.75rem;
+    }
+
+    /* Color variants for cards */
+    .form-card.retificacao {
+      border-color: rgba(255, 0, 88, 0.2);
+    }
+
+    .form-card.retificacao:hover {
+      border-color: rgba(255, 0, 88, 0.4);
+      background: linear-gradient(135deg, rgba(255, 0, 88, 0.12), rgba(255, 0, 88, 0.08));
+    }
+
+    .form-card.uniformes {
+      border-color: rgba(0, 255, 198, 0.2);
+    }
+
+    .form-card.uniformes:hover {
+      border-color: rgba(0, 255, 198, 0.4);
+    }
+
+    .form-card.cobertura {
+      border-color: rgba(155, 92, 255, 0.2);
+    }
+
+    .form-card.cobertura:hover {
+      border-color: rgba(155, 92, 255, 0.4);
+      background: linear-gradient(135deg, rgba(155, 92, 255, 0.12), rgba(155, 92, 255, 0.08));
+    }
+
+    /* ========== INFO SECTION ========== */
+    .info-section {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      margin-bottom: 2rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+    }
+
+    .info-icon {
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 10px;
+      background: rgba(0, 255, 198, 0.1);
+      border: 1px solid rgba(0, 255, 198, 0.2);
+    }
+
+    .info-item.secure .info-icon {
+      background: rgba(0, 255, 198, 0.1);
+      border-color: rgba(0, 255, 198, 0.3);
+      color: #00ffc6;
+    }
+
+    .info-item.available .info-icon {
+      background: rgba(45, 255, 122, 0.1);
+      border-color: rgba(45, 255, 122, 0.3);
+      color: #2dff7a;
+    }
+
+    .info-item.support .info-icon {
+      background: rgba(155, 92, 255, 0.1);
+      border-color: rgba(155, 92, 255, 0.3);
+      color: #c9a3ff;
+    }
+
+    .info-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: rgba(232, 255, 248, 0.7);
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.2));
+      padding: 2rem 1.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: rgba(232, 255, 248, 0.5);
+      margin-top: auto;
+    }
+
+    .footer-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .footer-copyright {
+      font-size: 0.8rem;
+      color: rgba(232, 255, 248, 0.4);
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 640px) {
+      header {
+        padding: 1rem;
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      main {
+        padding: 1.5rem 1rem;
+      }
+
+      .hero-section {
+        padding: 2rem 1.5rem;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-icons {
+        gap: 1rem;
+        font-size: 2rem;
+      }
+
+      .forms-container {
+        padding: 1.5rem;
+      }
+
+      .forms-grid {
+        gap: 1rem;
+      }
+
+      .info-grid {
+        gap: 1.5rem;
+      }
+    }
+
+    /* ========== SCROLLBAR ========== */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 255, 198, 0.2);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 255, 198, 0.4);
     }
   </style>
 </head>
+<body>
+  <div class="wrapper">
+    <!-- HEADER -->
+    <header>
+      <div class="header-content">
+        <div class="brand">
+          <div class="brand-icon">🛡️</div>
+          <h1>SUPERVISÃO</h1>
+        </div>
 
-<body class="min-h-screen p-4 md:p-8">
-  <div class="scanlines"></div>
-  <div class="vignette"></div>
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span>ONLINE</span>
+        </div>
+      </div>
+    </header>
 
-  <div class="content-wrapper w-full">
-    <div class="max-w-5xl mx-auto">
-
-      <!-- Top “HUD” strip (sticky on mobile) -->
-      <div class="sticky top-3 z-20">
-        <div class="security-badge px-4 py-2 rounded-full mb-4 flex items-center justify-between gap-3">
-          <div class="flex items-center gap-2 text-[11px] md:text-xs font-bold text-white/90 mono">
-            <i class="fas fa-shield-halved text-[var(--neon)]"></i>
-            ÁREA SEGURA • ACESSO AUTORIZADO
+    <!-- MAIN CONTENT -->
+    <main>
+      <!-- HERO SECTION -->
+      <div class="hero-section">
+        <div class="hero-content">
+          <div class="hero-icons">
+            <span class="hero-icon">🛡️</span>
+            <span class="hero-icon">👁️</span>
+            <span class="hero-icon">🔐</span>
           </div>
-          <div class="flex items-center gap-2 text-[11px] md:text-xs mono text-white/80">
-            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_0_6px_rgba(45,255,122,.10)]"></span>
-            ONLINE
+
+          <h1 class="hero-title">SUPERVISÃO</h1>
+          <p class="hero-subtitle">EQUIPE DE VIGILÂNCIA E SEGURANÇA</p>
+
+          <div class="hero-divider"></div>
+
+          <div class="hero-tags">
+            <div class="hero-tag">🔒 SECURE</div>
+            <div class="hero-tag">👁️ WATCH</div>
+            <div class="hero-tag">🏢 PROTECT</div>
+            <div class="hero-tag">📡 HUD</div>
           </div>
         </div>
       </div>
 
-      <!-- Header / Title -->
-      <div class="header-panel rounded-2xl p-6 md:p-8 mb-8">
-        <div class="flex items-center justify-center gap-4 mb-3">
-          <i class="fas fa-shield-halved text-4xl md:text-5xl text-[var(--neon)] shield-icon"></i>
-          <h1 class="title-font text-3xl md:text-5xl font-black text-white">
-            SUPERVISÃO
-          </h1>
-          <i class="fas fa-user-shield text-4xl md:text-5xl text-[var(--neon2)] shield-icon"></i>
-        </div>
-
-        <div class="flex items-center justify-center gap-2 text-white/85">
-          <i class="fas fa-satellite-dish text-xs text-[var(--neon)]"></i>
-          <p class="text-sm md:text-lg font-semibold tracking-wide title-font" style="letter-spacing:.12em">
-            EQUIPE DE VIGILÂNCIA E SEGURANÇA
-          </p>
-          <i class="fas fa-satellite-dish text-xs text-[var(--neon2)]"></i>
-        </div>
-
-        <div class="mt-4 flex flex-wrap items-center justify-center gap-3 text-white/70 text-xs md:text-sm">
-          <span class="mono"><i class="fas fa-lock"></i> SECURE</span>
-          <span class="opacity-60">•</span>
-          <span class="mono"><i class="fas fa-eye"></i> WATCH</span>
-          <span class="opacity-60">•</span>
-          <span class="mono"><i class="fas fa-building-shield"></i> PROTECT</span>
-          <span class="opacity-60">•</span>
-          <span class="mono"><i class="fas fa-signal"></i> HUD</span>
-        </div>
-      </div>
-
-      <!-- Main Card -->
-      <div class="rounded-3xl p-6 md:p-10 shadow-2xl"
-           style="backdrop-filter: blur(10px); background: rgba(255,255,255,.04); border: 1px solid rgba(0,255,198,.14);">
-
-        <div class="text-center mb-8">
-          <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-2 flex items-center justify-center gap-3 title-font">
-            <i class="fas fa-terminal text-[var(--neon)]"></i>
-            PORTAL DE FORMULÁRIOS
+      <!-- FORMS SECTION -->
+      <div class="forms-container">
+        <div class="forms-header">
+          <h2 class="forms-title">
+            💻 PORTAL DE FORMULÁRIOS
           </h2>
-          <p class="text-white/60 text-sm md:text-base">
-            Selecione o formulário que deseja preencher (interface tática otimizada para celular).
+          <p class="forms-description">
+            Selecione o formulário que deseja preencher (interface tática otimizada para celular)
           </p>
-          <div class="w-28 h-1 mx-auto mt-4 rounded-full"
-               style="background: linear-gradient(90deg, var(--neon), var(--neon2)); opacity:.9"></div>
         </div>
 
-        <!-- Grid (mobile: 1 col, desktop: 3 col) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
-
+        <div class="forms-grid">
           <!-- RETIFICAÇÃO -->
-          <a href="https://forms.gle/Me9bJNG99LwJWyyt7" target="_blank"
-             class="btn-form rounded-2xl p-7 md:p-8 text-center shadow-xl group"
-             style="background: linear-gradient(135deg, rgba(255,0,88,.22), rgba(255,255,255,.03));">
-            <div class="relative z-10">
-              <div class="icon-ring bg-white/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-file-pen text-4xl text-white"></i>
-              </div>
-              <h3 class="text-xl md:text-2xl font-black text-white mb-2 title-font">RETIFICAÇÃO</h3>
-              <p class="text-white/70 text-sm mb-4">Correção de dados e informações cadastrais</p>
-              <div class="flex items-center justify-center gap-2 font-bold mono" style="color: var(--neon);">
-                <span>ACESSAR</span>
-                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-              </div>
-            </div>
+          <a href="https://forms.gle/Me9bJNG99LwJWyyt7" target="_blank" rel="noopener noreferrer" class="form-card retificacao">
+            <div class="form-icon-container">✏️</div>
+            <h3 class="form-title">RETIFICAÇÃO</h3>
+            <p class="form-description">Correção de dados e informações cadastrais</p>
+            <span class="form-link">
+              <span>ACESSAR</span>
+              <span>→</span>
+            </span>
           </a>
 
           <!-- UNIFORMES -->
-          <a href="https://forms.gle/XZ8RyCDG1oeHkN6aA" target="_blank"
-             class="btn-form rounded-2xl p-7 md:p-8 text-center shadow-xl group"
-             style="background: linear-gradient(135deg, rgba(0,255,198,.18), rgba(255,255,255,.03));">
-            <div class="relative z-10">
-              <div class="icon-ring bg-white/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-vest text-4xl text-white"></i>
-              </div>
-              <h3 class="text-xl md:text-2xl font-black text-white mb-2 title-font">UNIFORMES</h3>
-              <p class="text-white/70 text-sm mb-4">Solicitação e controle de uniformes da equipe</p>
-              <div class="flex items-center justify-center gap-2 font-bold mono" style="color: var(--neon);">
-                <span>ACESSAR</span>
-                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-              </div>
-            </div>
+          <a href="https://forms.gle/XZ8RyCDG1oeHkN6aA" target="_blank" rel="noopener noreferrer" class="form-card uniformes">
+            <div class="form-icon-container">👕</div>
+            <h3 class="form-title">UNIFORMES</h3>
+            <p class="form-description">Solicitação e controle de uniformes da equipe</p>
+            <span class="form-link">
+              <span>ACESSAR</span>
+              <span>→</span>
+            </span>
           </a>
 
           <!-- COBERTURA -->
-          <a href="https://forms.gle/y18CgNWdPEDrhYQm9" target="_blank"
-             class="btn-form rounded-2xl p-7 md:p-8 text-center shadow-xl group"
-             style="background: linear-gradient(135deg, rgba(155,92,255,.22), rgba(255,255,255,.03));">
-            <div class="relative z-10">
-              <div class="icon-ring bg-white/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-user-clock text-4xl text-white"></i>
-              </div>
-              <h3 class="text-xl md:text-2xl font-black text-white mb-2 title-font">COBERTURA</h3>
-              <p class="text-white/70 text-sm mb-4">Solicitação de cobertura de turnos e escalas</p>
-              <div class="flex items-center justify-center gap-2 font-bold mono" style="color: var(--neon);">
-                <span>ACESSAR</span>
-                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-              </div>
-            </div>
+          <a href="https://forms.gle/y18CgNWdPEDrhYQm9" target="_blank" rel="noopener noreferrer" class="form-card cobertura">
+            <div class="form-icon-container">⏰</div>
+            <h3 class="form-title">COBERTURA</h3>
+            <p class="form-description">Solicitação de cobertura de turnos e escalas</p>
+            <span class="form-link">
+              <span>ACESSAR</span>
+              <span>→</span>
+            </span>
           </a>
-
         </div>
+      </div>
 
-        <!-- Info row -->
-        <div class="mt-8 pt-7 border-t border-white/10">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-            <div class="flex flex-col items-center gap-2">
-              <i class="fas fa-lock text-3xl" style="color: var(--neon);"></i>
-              <p class="text-white/70 text-sm font-semibold mono">ACESSO SEGURO</p>
-            </div>
-            <div class="flex flex-col items-center gap-2">
-              <i class="fas fa-clock text-3xl text-emerald-300"></i>
-              <p class="text-white/70 text-sm font-semibold mono">DISPONÍVEL 24/7</p>
-            </div>
-            <div class="flex flex-col items-center gap-2">
-              <i class="fas fa-headset text-3xl" style="color: var(--warn);"></i>
-              <p class="text-white/70 text-sm font-semibold mono">SUPORTE ATIVO</p>
-            </div>
+      <!-- INFO SECTION -->
+      <div class="info-section">
+        <div class="info-grid">
+          <div class="info-item secure">
+            <div class="info-icon">🔒</div>
+            <p class="info-label">ACESSO SEGURO</p>
+          </div>
+          <div class="info-item available">
+            <div class="info-icon">⏱️</div>
+            <p class="info-label">DISPONÍVEL 24/7</p>
+          </div>
+          <div class="info-item support">
+            <div class="info-icon">🎧</div>
+            <p class="info-label">SUPORTE ATIVO</p>
           </div>
         </div>
       </div>
+    </main>
 
-      <!-- Footer -->
-      <div class="mt-8 text-center">
-        <p class="text-white/60 text-sm flex items-center justify-center gap-2 mono">
-          <i class="fas fa-shield-heart" style="color: var(--neon);"></i>
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-main">
+          <span>🛡️</span>
           <span>Portal Oficial de Vigilância — Supervisor Douglas Jelinsky</span>
-          <i class="fas fa-shield-heart" style="color: var(--neon2);"></i>
-        </p>
-        <p class="text-white/40 text-xs mt-2 mono">© 2026 - Todos os direitos reservados</p>
+          <span>❤️</span>
+        </div>
+        <p class="footer-copyright">© 2026 - Todos os direitos reservados</p>
       </div>
-
-    </div>
+    </footer>
   </div>
 </body>
 </html>
