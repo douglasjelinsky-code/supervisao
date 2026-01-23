@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#020f0d" />
+  <meta name="theme-color" content="#000000" />
   <meta name="description" content="Portal de Formulários - Equipe de Vigilância e Segurança" />
   <title>SUPERVISÃO - Portal de Formulários</title>
 
@@ -27,7 +27,7 @@
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       color: #e8fff8;
-      background: linear-gradient(135deg, #020f0d 0%, #0a1a18 50%, #020f0d 100%);
+      background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
       overflow-x: hidden;
       line-height: 1.6;
       min-height: 100vh;
@@ -42,9 +42,9 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(900px 600px at 15% 10%, rgba(0, 255, 198, 0.08), transparent 60%),
-        radial-gradient(800px 550px at 90% 20%, rgba(155, 92, 255, 0.08), transparent 60%),
-        radial-gradient(650px 550px at 45% 95%, rgba(255, 0, 88, 0.06), transparent 60%);
+        radial-gradient(900px 600px at 15% 10%, rgba(0, 255, 198, 0.05), transparent 60%),
+        radial-gradient(800px 550px at 90% 20%, rgba(155, 92, 255, 0.05), transparent 60%),
+        radial-gradient(650px 550px at 45% 95%, rgba(255, 0, 88, 0.04), transparent 60%);
       z-index: 0;
     }
 
@@ -54,10 +54,10 @@
       inset: 0;
       pointer-events: none;
       background-image:
-        linear-gradient(rgba(0, 255, 198, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 198, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(0, 255, 198, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 198, 0.02) 1px, transparent 1px);
       background-size: 72px 72px;
-      opacity: 0.4;
+      opacity: 0.3;
       z-index: 0;
     }
 
@@ -75,10 +75,10 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: linear-gradient(180deg, rgba(2, 15, 13, 0.85), rgba(2, 15, 13, 0.4));
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.6));
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(0, 255, 198, 0.15);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       padding: 1rem 1.5rem;
     }
 
@@ -159,7 +159,7 @@
 
     /* ========== HERO SECTION ========== */
     .hero-section {
-      background: linear-gradient(135deg, rgba(0, 255, 198, 0.1), rgba(155, 92, 255, 0.08));
+      background: linear-gradient(135deg, rgba(0, 255, 198, 0.08), rgba(155, 92, 255, 0.06));
       border: 1px solid rgba(0, 255, 198, 0.2);
       border-radius: 16px;
       padding: 1.5rem 1.5rem;
@@ -204,10 +204,6 @@
       animation-delay: 0.2s;
     }
 
-    .hero-icon:nth-child(3) {
-      animation-delay: 0.4s;
-    }
-
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-10px); }
@@ -226,7 +222,7 @@
     .hero-subtitle {
       font-size: 0.85rem;
       color: rgba(232, 255, 248, 0.8);
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       letter-spacing: 0.05em;
     }
 
@@ -239,31 +235,170 @@
       opacity: 0.8;
     }
 
-    .hero-tags {
+    /* ========== NEWS/ANNOUNCEMENTS SECTION ========== */
+    .news-section {
+      background: linear-gradient(135deg, rgba(255, 200, 0, 0.08), rgba(255, 150, 0, 0.06));
+      border: 1px solid rgba(255, 200, 0, 0.25);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .news-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, #ffc800, #ff9500);
+      box-shadow: 0 0 15px rgba(255, 200, 0, 0.5);
+    }
+
+    .news-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .news-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(255, 200, 0, 0.2);
+      border: 1px solid rgba(255, 200, 0, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      font-size: 0.7rem;
-      font-family: 'Space Mono', monospace;
-      color: rgba(232, 255, 248, 0.7);
-      margin-top: 1rem;
+      font-size: 1.2rem;
+      animation: pulse-glow 2s infinite;
     }
 
-    .hero-tag {
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 200, 0, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(255, 200, 0, 0.6);
+      }
+    }
+
+    .news-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffc800;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .news-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .news-item {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 200, 0, 0.15);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.75rem;
+      transition: all 0.3s ease;
+    }
+
+    .news-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .news-item:hover {
+      background: rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 200, 0, 0.3);
+      transform: translateX(4px);
+    }
+
+    .news-item-header {
       display: flex;
       align-items: center;
-      gap: 0.3rem;
-      padding: 0.35rem 0.7rem;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .news-item-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .news-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.6rem;
       border-radius: 999px;
-      background: rgba(0, 255, 198, 0.1);
-      border: 1px solid rgba(0, 255, 198, 0.2);
+      font-size: 0.7rem;
+      font-family: 'Space Mono', monospace;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .news-badge.urgent {
+      background: rgba(255, 0, 88, 0.2);
+      border: 1px solid rgba(255, 0, 88, 0.4);
+      color: #ff5588;
+    }
+
+    .news-badge.info {
+      background: rgba(0, 150, 255, 0.2);
+      border: 1px solid rgba(0, 150, 255, 0.4);
+      color: #5599ff;
+    }
+
+    .news-badge.success {
+      background: rgba(45, 255, 122, 0.2);
+      border: 1px solid rgba(45, 255, 122, 0.4);
+      color: #2dff7a;
+    }
+
+    .news-date {
+      font-size: 0.75rem;
+      color: rgba(232, 255, 248, 0.5);
+      font-family: 'Space Mono', monospace;
+    }
+
+    .news-item-text {
+      font-size: 0.9rem;
+      color: rgba(232, 255, 248, 0.8);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+      .news-section {
+        padding: 1.2rem;
+      }
+
+      .news-item {
+        padding: 0.9rem 1rem;
+      }
+
+      .news-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
     /* ========== FORMS GRID ========== */
     .forms-container {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       padding: 2rem;
@@ -310,7 +445,7 @@
     /* ========== FORM CARD ========== */
     .form-card {
       display: block;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 14px;
       padding: 1.75rem;
@@ -438,7 +573,7 @@
 
     /* ========== INFO SECTION ========== */
     .info-section {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       padding: 2rem;
@@ -502,7 +637,7 @@
     /* ========== FOOTER ========== */
     footer {
       border-top: 1px solid rgba(255, 255, 255, 0.05);
-      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.2));
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.4));
       padding: 2rem 1.5rem;
       text-align: center;
       font-size: 0.9rem;
@@ -581,7 +716,7 @@
     }
 
     ::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.4);
     }
 
     ::-webkit-scrollbar-thumb {
@@ -617,21 +752,66 @@
       <div class="hero-section">
         <div class="hero-content">
           <div class="hero-icons">
-            <span class="hero-icon">🛡️</span>
             
-            <span class="hero-icon">🔐</span>
           </div>
 
           <h1 class="hero-title">PORTAL DO VIGILANTE</h1>
           <p class="hero-subtitle">EQUIPE DE VIGILÂNCIA E SEGURANÇA ORBENK</p>
 
           <div class="hero-divider"></div>
+        </div>
+      </div>
 
-          <div class="hero-tags">
-            <div class="hero-tag">🔒 SECURANÇA</div>
-            <div class="hero-tag">👁️ VIGILANÇIA</div>
-            <div class="hero-tag">🏢 PROTEÇÃO</div>
-            <div class="hero-tag">📡 MONITORAMENTO</div>
+      <!-- NEWS/ANNOUNCEMENTS SECTION -->
+      <div class="news-section">
+        <div class="news-header">
+          <div class="news-icon">📢</div>
+          <h2 class="news-title">AVISOS IMPORTANTES</h2>
+        </div>
+        
+        <div class="news-content">
+          <div class="news-item">
+            <div class="news-item-header">
+              <div class="news-item-title">
+                <span>⚠️</span>
+                <span>Justificativas de Ponto</span>
+              </div>
+              <span class="news-badge urgent">URGENTE</span>
+              <span class="news-date">23 JAN 2026</span>
+            </div>
+            <p class="news-item-text">
+              Não Esqueça de Bater Seu Ponto Corretamente!  Peça a Sua Aprovação das Justificativas de Ponto,
+              Em Aprovação de Ponto 			  .
+            </p>
+          </div>
+
+          <div class="news-item">
+            <div class="news-item-header">
+              <div class="news-item-title">
+                <span>📋</span>
+                <span>Chamados </span>
+              </div>
+              <span class="news-badge info">INFO</span>
+              <span class="news-date">22 JAN 2026</span>
+            </div>
+            <p class="news-item-text">
+              Problemas Administrativos? Pedido de Demissão? Resolva Qualquer Problema Clicando Em Retificaçoes .
+            </p>
+          </div>
+
+          <div class="news-item">
+            <div class="news-item-header">
+              <div class="news-item-title">
+                <span>✅</span>
+                <span>📢 Boa apresentação no posto é essencial</span>
+              </div>
+              <span class="news-badge success">SUCESSO</span>
+              <span class="news-date">20 JAN 2026</span>
+            </div>
+            <p class="news-item-text">
+              mantenha uniforme limpo e completo, higiene em dia, postura profissional e atenção total ao serviço.
+              Sua imagem reflete a credibilidade da empresa e a qualidade da segurança. .
+            </p>
           </div>
         </div>
       </div>
@@ -652,18 +832,18 @@
           <a href="https://forms.gle/2XYZbzCXUCfN6kMN8" target="_blank" rel="noopener noreferrer" class="form-card aprovacao">
             <div class="form-icon-container">✅</div>
             <h3 class="form-title">APROVAÇÃO DE PONTO</h3>
-            <p class="form-description">Aprovação e validação de registros de ponto</p>
+            <p class="form-description">Aprovação das Justificativas de Ponto</p>
             <span class="form-link">
               <span>ACESSAR</span>
               <span>→</span>
             </span>
           </a>
 
-          <!-- RETIFICAÇÃO -->
+          <!-- SOLICITAÇÕES -->
           <a href="https://forms.gle/Me9bJNG99LwJWyyt7" target="_blank" rel="noopener noreferrer" class="form-card retificacao">
             <div class="form-icon-container">✏️</div>
             <h3 class="form-title">RETIFICAÇÃO</h3>
-            <p class="form-description">Correção de dados e informações</p>
+            <p class="form-description">Retifique ou Solicite</p>
             <span class="form-link">
               <span>ACESSAR</span>
               <span>→</span>
@@ -674,7 +854,7 @@
           <a href="https://forms.gle/XZ8RyCDG1oeHkN6aA" target="_blank" rel="noopener noreferrer" class="form-card uniformes">
             <div class="form-icon-container">👕</div>
             <h3 class="form-title">UNIFORMES</h3>
-            <p class="form-description">Solicitação de uniformes da equipe</p>
+            <p class="form-description">Solicite Seu Uniforme</p>
             <span class="form-link">
               <span>ACESSAR</span>
               <span>→</span>
@@ -685,7 +865,7 @@
           <a href="https://forms.gle/y18CgNWdPEDrhYQm9" target="_blank" rel="noopener noreferrer" class="form-card cobertura">
             <div class="form-icon-container">⏰</div>
             <h3 class="form-title">COBERTURA [ RT ]</h3>
-            <p class="form-description">Registro de cobertura de Postos </p>
+            <p class="form-description">Registre Suas Coberturas </p>
             <span class="form-link">
               <span>ACESSAR</span>
               <span>→</span>
@@ -719,7 +899,7 @@
         <div class="footer-main">
           <span>🛡️</span>
           <span>Portal Oficial de Vigilância — Supervisor Douglas Jelinsky</span>
-          <span>❤️</span>
+          <span>🛡️</span>
         </div>
         <p class="footer-copyright">© 2026 - Todos os direitos reservados</p>
       </div>
