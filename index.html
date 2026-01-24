@@ -235,7 +235,7 @@
       opacity: 0.8;
     }
 
-    /* ========== NEWS/ANNOUNCEMENTS SECTION ========== */
+    /* ========== ACCORDION NEWS/ANNOUNCEMENTS ========== */
     .news-section {
       background: linear-gradient(135deg, rgba(255, 200, 0, 0.08), rgba(255, 150, 0, 0.06));
       border: 1px solid rgba(255, 200, 0, 0.25);
@@ -302,38 +302,51 @@
       z-index: 2;
     }
 
-    .news-item {
+    /* ACCORDION STYLES */
+    .accordion-item {
       background: rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255, 200, 0, 0.15);
       border-radius: 10px;
-      padding: 1rem 1.2rem;
       margin-bottom: 0.75rem;
+      overflow: hidden;
       transition: all 0.3s ease;
     }
 
-    .news-item:last-child {
+    .accordion-item:last-child {
       margin-bottom: 0;
     }
 
-    .news-item:hover {
-      background: rgba(0, 0, 0, 0.4);
-      border-color: rgba(255, 200, 0, 0.3);
-      transform: translateX(4px);
-    }
-
-    .news-item-header {
+    .accordion-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.75rem;
-      margin-bottom: 0.5rem;
-      flex-wrap: wrap;
+      padding: 1rem 1.2rem;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s ease;
     }
 
-    .news-item-title {
+    .accordion-header:hover {
+      background: rgba(255, 200, 0, 0.05);
+    }
+
+    .accordion-title-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+    }
+
+    .accordion-title {
       font-size: 0.95rem;
       font-weight: 600;
       color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .accordion-badges {
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -373,6 +386,28 @@
       font-size: 0.75rem;
       color: rgba(232, 255, 248, 0.5);
       font-family: 'Space Mono', monospace;
+      white-space: nowrap;
+    }
+
+    .accordion-icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+      color: #ffc800;
+      margin-left: 0.5rem;
+    }
+
+    .accordion-item.active .accordion-icon {
+      transform: rotate(180deg);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .accordion-content-inner {
+      padding: 0 1.2rem 1rem 1.2rem;
     }
 
     .news-item-text {
@@ -382,18 +417,125 @@
     }
 
     @media (max-width: 640px) {
-      .news-section {
-        padding: 1.2rem;
-      }
-
-      .news-item {
-        padding: 0.9rem 1rem;
-      }
-
-      .news-item-header {
+      .accordion-header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 0.5rem;
       }
+
+      .accordion-badges {
+        flex-wrap: wrap;
+      }
+    }
+
+    /* ========== TRAINING SECTION (DIRETRIZES) ========== */
+    .training-section {
+      background: linear-gradient(135deg, rgba(155, 92, 255, 0.08), rgba(155, 92, 255, 0.06));
+      border: 1px solid rgba(155, 92, 255, 0.25);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .training-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, #9b5cff, #c9a3ff);
+      box-shadow: 0 0 15px rgba(155, 92, 255, 0.5);
+    }
+
+    .training-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .training-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(155, 92, 255, 0.2);
+      border: 1px solid rgba(155, 92, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .training-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #c9a3ff;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .training-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .training-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.2rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(155, 92, 255, 0.2);
+      border-radius: 10px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .training-link:hover {
+      background: rgba(0, 0, 0, 0.4);
+      border-color: rgba(155, 92, 255, 0.4);
+      transform: translateX(4px);
+    }
+
+    .training-link-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .training-link-content {
+      flex: 1;
+    }
+
+    .training-link-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .training-link-desc {
+      font-size: 0.8rem;
+      color: rgba(232, 255, 248, 0.6);
+    }
+
+    .training-link-arrow {
+      font-size: 1.2rem;
+      color: #c9a3ff;
+      transition: transform 0.3s ease;
+    }
+
+    .training-link:hover .training-link-arrow {
+      transform: translateX(4px);
     }
 
     /* ========== FORMS GRID ========== */
@@ -707,7 +849,11 @@
       .info-grid {
         gap: 1.5rem;
       }
-    }
+
+      .emergency-grid,
+      .training-grid {
+        grid-template-columns: 1fr;
+      }
 
     /* ========== SCROLLBAR ========== */
     ::-webkit-scrollbar {
@@ -741,7 +887,7 @@
 
         <div class="status-badge">
           <span class="status-dot"></span>
-          <span>ONLINE</span>
+          <span>VOCÊ ESTÁ ONLINE</span>
         </div>
       </div>
     </header>
@@ -762,7 +908,7 @@
         </div>
       </div>
 
-      <!-- NEWS/ANNOUNCEMENTS SECTION -->
+      <!-- ACCORDION NEWS/ANNOUNCEMENTS SECTION -->
       <div class="news-section">
         <div class="news-header">
           <div class="news-icon">📢</div>
@@ -770,48 +916,78 @@
         </div>
         
         <div class="news-content">
-          <div class="news-item">
-            <div class="news-item-header">
-              <div class="news-item-title">
-                <span>⚠️</span>
-                <span>Justificativas de Ponto</span>
+          <!-- Accordion Item 1 -->
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title-wrapper">
+                <div class="accordion-title">
+                  <span>⚠️</span>
+                  <span>JUSTIFICATIVAS DE PONTO</span>
+                </div>
               </div>
-              <span class="news-badge urgent">URGENTE</span>
-              <span class="news-date">23 JAN 2026</span>
+              <div class="accordion-badges">
+                <span class="news-badge urgent">URGENTE</span>
+                <span class="news-date">23 JAN 2026</span>
+                <span class="accordion-icon">▼</span>
+              </div>
             </div>
-            <p class="news-item-text">
-              Não Esqueça de Bater Seu Ponto Corretamente!  Peça a Sua Aprovação das Justificativas de Ponto,
-              Em Aprovação de Ponto 			  .
-            </p>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                <p class="news-item-text">
+                  NÃO ESQUEÇA DE BATER SEU PONTO CORRETAMENTE NO NEXTI! PEÇA A APROVAÇÃO DAS JUSTIFICATIVAS AO SEU SUPERVISOR
+                  EM APROVAÇÃO DE PONTO⏱️.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div class="news-item">
-            <div class="news-item-header">
-              <div class="news-item-title">
-                <span>📋</span>
-                <span>Chamados </span>
+          <!-- Accordion Item 2 -->
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title-wrapper">
+                <div class="accordion-title">
+                  <span>⏰</span>
+                  <span>COBERTURAS</span>
+                </div>
               </div>
-              <span class="news-badge info">INFO</span>
-              <span class="news-date">22 JAN 2026</span>
+              <div class="accordion-badges">
+                <span class="news-badge info">INFO</span>
+                <span class="news-date">22 JAN 2026</span>
+                <span class="accordion-icon">▼</span>
+              </div>
             </div>
-            <p class="news-item-text">
-              Problemas Administrativos? Pedido de Demissão? Resolva Qualquer Problema Clicando Em Retificaçoes .
-            </p>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                <p class="news-item-text">
+                  NÃO ESQUEÇA DE REGISTRAR TODAS AS COBERTURAS EM [ COBERTURA DE POSTO ].
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div class="news-item">
-            <div class="news-item-header">
-              <div class="news-item-title">
-                <span>✅</span>
-                <span>📢 Boa apresentação no posto é essencial</span>
+          <!-- Accordion Item 3 -->
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title-wrapper">
+                <div class="accordion-title">
+                  <span>✅</span>
+                  <span>BOA APRESENTAÇÃO NO POSTO É ESSENCIAL</span>
+                </div>
               </div>
-              <span class="news-badge success">SUCESSO</span>
-              <span class="news-date">20 JAN 2026</span>
+              <div class="accordion-badges">
+                <span class="news-badge success">SUCESSO</span>
+                <span class="news-date">24 JAN 2026</span>
+                <span class="accordion-icon">▼</span>
+              </div>
             </div>
-            <p class="news-item-text">
-              mantenha uniforme limpo e completo, higiene em dia, postura profissional e atenção total ao serviço.
-              Sua imagem reflete a credibilidade da empresa e a qualidade da segurança. .
-            </p>
+            <div class="accordion-content">
+              <div class="accordion-content-inner">
+                <p class="news-item-text">
+                  MANTENHA O UNIFORME COMPLETO, HIGIENE EM DIA, POSTURA PROFISSIONAL E ATENÇÃO TOTAL AO SERVIÇO.
+                  SUA IMAGEM REFLETE A CREDIBILIDADE DA EMPRESA E A QUALIDADE DO SEU SERVIÇO.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -864,12 +1040,31 @@
           <!-- COBERTURA -->
           <a href="https://forms.gle/y18CgNWdPEDrhYQm9" target="_blank" rel="noopener noreferrer" class="form-card cobertura">
             <div class="form-icon-container">⏰</div>
-            <h3 class="form-title">COBERTURA [ RT ]</h3>
+            <h3 class="form-title">COBERTURA DE POSTO</h3>
             <p class="form-description">Registre Suas Coberturas </p>
             <span class="form-link">
               <span>ACESSAR</span>
               <span>→</span>
             </span>
+          </a>
+        </div>
+      </div>
+
+      <!-- TRAINING SECTION (DIRETRIZES) -->
+      <div class="training-section">
+        <div class="training-header">
+          <div class="training-icon">🎓</div>
+          <h2 class="training-title">DIRETRIZES DE POSTO</h2>
+        </div>
+        
+        <div class="training-grid">
+          <a href="https://drive.google.com/drive/folders/1eHM4KLLUDogMfmXN0LPhF94mYUMM3LkF?usp=sharing" target="_blank" rel="noopener noreferrer" class="training-link">
+            <span class="training-link-icon">📋</span>
+            <div class="training-link-content">
+              <div class="training-link-title">Diretrizes de Posto</div>
+              <div class="training-link-desc">Acesse as diretrizes e procedimentos do posto</div>
+            </div>
+            <span class="training-link-arrow">→</span>
           </a>
         </div>
       </div>
@@ -905,5 +1100,31 @@
       </div>
     </footer>
   </div>
+
+  <script>
+    // Função para alternar accordion
+    function toggleAccordion(header) {
+      const item = header.parentElement;
+      const content = item.querySelector('.accordion-content');
+      const isActive = item.classList.contains('active');
+
+      // Fecha todos os outros accordions
+      document.querySelectorAll('.accordion-item').forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.classList.remove('active');
+          otherItem.querySelector('.accordion-content').style.maxHeight = null;
+        }
+      });
+
+      // Alterna o accordion clicado
+      if (isActive) {
+        item.classList.remove('active');
+        content.style.maxHeight = null;
+      } else {
+        item.classList.add('active');
+        content.style.maxHeight = content.scrollHeight + 'px';
+      }
+    }
+  </script>
 </body>
 </html>
