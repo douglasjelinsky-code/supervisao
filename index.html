@@ -5,404 +5,1174 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#004294" />
   <meta name="description" content="Portal de Formulários - Equipe de Vigilância e Segurança" />
-  <title>PORTAL DO VIGILANTE</title>
+  <title>PORTAL DO VIGILANTE | Orbenk</title>
   
   <link rel='preconnect' href='https://fonts.googleapis.com'>
   <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap' rel='stylesheet'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'>
 
   <style>
     :root {
-      --orbenk-blue: #004294;
-      --orbenk-blue-light: #0066cc;
-      --orbenk-blue-dim: rgba(0, 66, 148, 0.8);
-      --bg-deep: #05080f;
-      --bg-card: #0d1424;
-      --text-main: #e6edf3;
-      --text-dim: #8b949e;
-      --border-color: #21262d;
+      --primary: #0066ff;
+      --primary-glow: rgba(0, 102, 255, 0.4);
+      --secondary: #00d4ff;
+      --accent: #ff3e3e;
+      --success: #00ff88;
+      --warning: #ffaa00;
+      --bg-void: #020408;
+      --bg-surface: #0a0f1c;
+      --bg-elevated: #111827;
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-active: rgba(0, 102, 255, 0.5);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --gradient-hero: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%);
+      --gradient-card: linear-gradient(180deg, rgba(0, 102, 255, 0.1) 0%, transparent 100%);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @property --gradient-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
-      color: var(--text-main);
-      background-color: var(--bg-deep);
-      background-image: radial-gradient(circle at 50% 0%, rgba(0, 66, 148, 0.1) 0%, transparent 70%);
+      color: var(--text-primary);
+      background: var(--bg-void);
       line-height: 1.6;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      overflow-x: hidden;
     }
 
+    /* Animated Background */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 102, 255, 0.15), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0, 212, 255, 0.08), transparent),
+        radial-gradient(ellipse 50% 30% at 20% 100%, rgba(0, 102, 255, 0.05), transparent);
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+    }
+
+    /* Header */
     header {
-      background: rgba(13, 20, 36, 0.95);
-      border-bottom: 2px solid var(--orbenk-blue);
-      padding: 1rem 0;
-      position: relative;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 1000;
-      backdrop-filter: blur(10px);
+      background: rgba(2, 4, 8, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: all 0.3s ease;
+    }
+
+    header.scrolled {
+      background: rgba(2, 4, 8, 0.95);
+      border-bottom-color: var(--border-active);
     }
 
     .header-content {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: 1rem 2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1.5rem;
     }
 
-    .brand { display: flex; align-items: center; gap: 1rem; }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
     .brand-icon {
-      width: 50px; height: 50px; border-radius: 8px;
-      overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      background: #004294;
-    }
-    .brand-icon img { width: 100%; height: 100%; object-fit: cover; }
-    .brand h1 { font-family: 'Space Mono', monospace; font-size: 16px; color: #3399ff; text-transform: uppercase; }
-
-    /* MENU SUPERIOR ELEGANTE */
-    .nav-menu {
-      background: linear-gradient(135deg, rgba(0, 66, 148, 0.15) 0%, rgba(0, 0, 0, 0.3) 100%);
-      border-bottom: 2px solid var(--orbenk-blue);
-      padding: 0;
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      backdrop-filter: blur(15px);
-      box-shadow: 0 8px 32px rgba(0, 66, 148, 0.2);
-    }
-
-    .nav-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--gradient-hero);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0;
+      font-size: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 30px var(--primary-glow);
+    }
+
+    .brand-icon::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background: conic-gradient(from var(--gradient-angle), transparent, rgba(255,255,255,0.3), transparent);
+      animation: rotate 4s linear infinite;
+    }
+
+    .brand-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+      border-radius: 12px;
+      padding: 2px;
+      background: var(--bg-surface);
+    }
+
+    @keyframes rotate {
+      to { --gradient-angle: 360deg; }
+    }
+
+    .brand-text h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-text span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--success);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--success);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Navigation */
+    .nav-container {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: rgba(17, 24, 39, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      pointer-events: all;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
 
     .nav-item {
-      padding: 1.2rem 2rem;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      color: var(--text-main);
-      font-weight: 700;
-      font-size: 0.95rem;
-      text-transform: uppercase;
-      font-family: 'Space Mono', monospace;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
       text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.7rem;
-      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
-      border: none;
-      background: transparent;
+      overflow: hidden;
     }
 
     .nav-item::before {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #3399ff, #0066cc);
-      border-radius: 2px;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      transform: translateX(-50%);
+      inset: 0;
+      background: var(--gradient-hero);
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
-    .nav-item:hover {
-      color: #3399ff;
-      text-shadow: 0 0 10px rgba(51, 153, 255, 0.5);
-    }
-
-    .nav-item:hover::before {
-      width: 80%;
-    }
-
-    .nav-item.active {
-      color: #3399ff;
-      text-shadow: 0 0 15px rgba(51, 153, 255, 0.8);
+    .nav-item:hover, .nav-item.active {
+      color: var(--text-primary);
+      transform: translateY(-2px);
     }
 
     .nav-item.active::before {
-      width: 80%;
+      opacity: 1;
     }
 
-    main { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; width: 100%; flex: 1; }
+    .nav-item span {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-    /* HERO SECTION */
-    .hero-section {
-      text-align: center;
-      margin-bottom: 3rem;
+    /* Main Content */
+    main {
+      margin-top: 160px;
       padding: 2rem;
-      background: rgba(13, 20, 36, 0.5);
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 102, 255, 0.1);
+      border: 1px solid var(--border-active);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--primary);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 2rem;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .hero h2 {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero h2 span {
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Section Styling */
+    section {
+      margin-bottom: 5rem;
+      scroll-margin-top: 200px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border-active), transparent);
+    }
+
+    /* News Section */
+    .news-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .news-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gradient-hero);
+    }
+
+    .news-header {
+      padding: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .news-header i {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .news-header h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .accordion-list {
+      padding: 1rem;
+    }
+
+    .accordion-item {
+      margin-bottom: 0.75rem;
       border-radius: 16px;
-      border: 1px solid var(--border-color);
+      overflow: hidden;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      transition: all 0.3s ease;
     }
-    .hero-title { font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; font-family: 'Space Mono', monospace; }
-    .hero-subtitle { font-size: 1rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
-    .hero-divider { height: 2px; width: 60px; background: var(--orbenk-blue); margin: 1.5rem auto 0; }
 
-    /* SECTIONS */
-    .section-container { margin-bottom: 3rem; }
-    .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-    .section-title { color: #3399ff; font-family: 'Space Mono', monospace; font-size: 14px; text-transform: uppercase; border-left: 4px solid var(--orbenk-blue); padding-left: 10px; }
-    .section-divider { background: var(--border-color); height: 1px; flex: 1; }
-
-    /* TRAINING BUTTONS */
-    .training-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
-    .btn-action {
-      display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.25rem;
-      background: var(--orbenk-blue); border: 1px solid var(--orbenk-blue); border-radius: 12px;
-      text-decoration: none; color: #fff; font-weight: 700; font-family: 'Space Mono', monospace;
-      transition: 0.3s;
+    .accordion-item:hover {
+      border-color: var(--border-active);
+      transform: translateX(4px);
     }
-    .btn-action:hover { background: #0056b3; border-color: #007bff; transform: translateY(-2px); }
 
-    /* FORMS GRID */
-    .forms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.2rem; }
-    .form-card {
-      background: var(--bg-card); border: 1px solid var(--border-color); padding: 1.5rem;
-      border-radius: 12px; text-decoration: none; color: inherit; transition: 0.2s;
-      display: flex; flex-direction: column; align-items: center; text-align: center;
+    .accordion-header {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.3s;
     }
-    .form-card:hover { border-color: #007bff; transform: translateY(-3px); background: #121d33; }
-    .form-icon { font-size: 2.5rem; margin-bottom: 1rem; width: 70px; height: 70px; background: var(--orbenk-blue); display: flex; align-items: center; justify-content: center; border-radius: 12px; color: #fff; }
-    .form-title { color: #fff; font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem; font-family: 'Space Mono', monospace; }
-    .form-desc { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1.2rem; }
-    .form-btn { font-size: 0.8rem; font-weight: 700; color: #3399ff; font-family: 'Space Mono', monospace; }
 
-    /* AVISOS / ACCORDION */
-    .news-section { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 1.5rem; margin-bottom: 3rem; }
-    .news-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; }
-    .news-title { font-size: 1.1rem; color: #3399ff; font-family: 'Space Mono', monospace; }
-    .accordion-item { border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 0.75rem; overflow: hidden; }
-    .accordion-header { background: rgba(255,255,255,0.02); padding: 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
-    .accordion-header:hover { background: rgba(255,255,255,0.05); }
-    .accordion-title { display: flex; align-items: center; gap: 0.75rem; font-weight: 600; font-size: 0.9rem; }
-    .accordion-badges { display: flex; align-items: center; gap: 0.75rem; }
-    .news-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
-    .news-badge.urgent { background: #ff3e3e; color: #fff; }
-    .news-badge.info { background: #3399ff; color: #fff; }
-    .news-badge.success { background: #2dff7a; color: #000; }
-    .news-date { font-size: 0.7rem; color: var(--text-dim); font-family: 'Space Mono', monospace; }
-    .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: rgba(0,0,0,0.2); }
-    .accordion-content-inner { padding: 1rem; font-size: 0.9rem; color: var(--text-main); }
-    .accordion-item.active .accordion-content { max-height: 200px; }
-    .accordion-item.active .accordion-icon { transform: rotate(180deg); }
+    .accordion-item.active .accordion-header {
+      background: rgba(0, 102, 255, 0.05);
+    }
 
-    /* INFO ITEMS */
-    .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-    .info-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
-    .info-icon-small { width: 50px; height: 50px; background: rgba(0, 66, 148, 0.2); border: 1px solid var(--orbenk-blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #3399ff; }
-    .info-label { font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; font-family: 'Space Mono', monospace; }
+    .accordion-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-weight: 600;
+    }
 
-    footer { background: #000; border-top: 1px solid var(--border-color); padding: 2rem 1.5rem; text-align: center; color: var(--text-dim); font-size: 0.8rem; }
-    .footer-main { margin-bottom: 0.5rem; color: var(--text-main); font-weight: 600; }
+    .accordion-title i {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 102, 255, 0.1);
+      border-radius: 10px;
+      color: var(--primary);
+    }
 
+    .accordion-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
+    }
+
+    .badge.urgent {
+      background: rgba(255, 62, 62, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(255, 62, 62, 0.3);
+      animation: glow-red 2s ease-in-out infinite;
+    }
+
+    .badge.info {
+      background: rgba(0, 102, 255, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(0, 102, 255, 0.3);
+    }
+
+    .badge.success {
+      background: rgba(0, 255, 136, 0.15);
+      color: var(--success);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+    }
+
+    @keyframes glow-red {
+      0%, 100% { box-shadow: 0 0 5px rgba(255, 62, 62, 0.5); }
+      50% { box-shadow: 0 0 20px rgba(255, 62, 62, 0.8); }
+    }
+
+    .accordion-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .accordion-icon {
+      transition: transform 0.3s ease;
+      color: var(--text-muted);
+    }
+
+    .accordion-item.active .accordion-icon {
+      transform: rotate(180deg);
+      color: var(--primary);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .accordion-item.active .accordion-content {
+      max-height: 300px;
+    }
+
+    .accordion-body {
+      padding: 0 1.5rem 1.5rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2rem;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gradient-card);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-active);
+      box-shadow: 0 20px 40px rgba(0, 102, 255, 0.15);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--gradient-hero);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 10px 30px rgba(0, 102, 255, 0.3);
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .card-arrow {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.875rem;
+      font-family: 'JetBrains Mono', monospace;
+      position: relative;
+      z-index: 1;
+      transition: gap 0.3s;
+    }
+
+    .card:hover .card-arrow {
+      gap: 1rem;
+    }
+
+    /* Training Cards */
+    .training-card {
+      background: linear-gradient(135deg, rgba(0, 102, 255, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%);
+      border: 1px solid var(--border-active);
+    }
+
+    .training-card .card-icon {
+      background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+      box-shadow: 0 10px 30px rgba(255, 0, 110, 0.3);
+    }
+
+    /* Document Cards */
+    .doc-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .doc-card .card-icon {
+      background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+    }
+
+    /* Info Section */
+    .info-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      padding: 3rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gradient-hero);
+    }
+
+    .info-item {
+      text-align: center;
+      position: relative;
+    }
+
+    .info-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 60%;
+      background: var(--border-subtle);
+    }
+
+    .info-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 1rem;
+      background: rgba(0, 102, 255, 0.1);
+      border: 1px solid var(--border-active);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--primary);
+      transition: all 0.3s;
+    }
+
+    .info-item:hover .info-icon {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px var(--primary-glow);
+    }
+
+    .info-label {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 0.25rem;
+    }
+
+    .info-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 6rem;
+      padding: 3rem 2rem;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-text {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-copy {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    /* Mobile Responsive */
     @media (max-width: 768px) {
-      .header-content { flex-direction: column; gap: 1rem; }
-      .hero-title { font-size: 1.5rem; }
-      .info-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-      .nav-content { flex-wrap: wrap; }
-      .nav-item {
-        padding: 1rem 1.2rem;
-        font-size: 0.85rem;
+      .header-content {
+        padding: 1rem;
       }
+
+      .nav-container {
+        top: 70px;
+        padding: 0.5rem;
+      }
+
+      .nav-menu {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 0.25rem;
+      }
+
+      .nav-item {
+        padding: 0.6rem 1rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
+      }
+
+      main {
+        margin-top: 140px;
+        padding: 1rem;
+      }
+
+      .hero {
+        padding: 2rem 1rem;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .info-section {
+        grid-template-columns: 1fr;
+        padding: 2rem;
+        gap: 2rem;
+      }
+
+      .info-item:not(:last-child)::after {
+        display: none;
+      }
+
+      .accordion-meta {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+    }
+
+    /* Scroll Reveal Animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-void);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-subtle);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
     }
   </style>
 </head>
 <body>
-  <header>
+  <div class="ambient-bg"></div>
+  <div class="grid-overlay"></div>
+
+  <header id="header">
     <div class="header-content">
       <div class="brand">
-        <div class="brand-icon"><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663074137771/hJbeoIhKqYfmJnTc.jpg" alt="Orbenk Logo"></div>
-        <h1>Centro de Comando Integrado</h1>
+        <div class="brand-icon">
+          <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663074137771/hJbeoIhKqYfmJnTc.jpg" alt="Orbenk">
+        </div>
+        <div class="brand-text">
+          <h1>Centro de Comando</h1>
+          <span>Integrado de Operações</span>
+        </div>
       </div>
-      <div class="status-badge" style="background: rgba(45, 255, 122, 0.1); border: 1px solid #2dff7a; padding: 4px 12px; border-radius: 20px; color: #2dff7a; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; gap: 6px;">
-        <span style="width: 6px; height: 6px; background: #2dff7a; border-radius: 50%; display: inline-block;"></span>
-        ORBENK
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        ORBENK ONLINE
       </div>
     </div>
   </header>
 
-  <!-- MENU SUPERIOR ELEGANTE -->
-  <nav class="nav-menu">
-    <div class="nav-content">
-      <a href="#avisos" class="nav-item active">📢 AVISOS</a>
-      <a href="#treinamentos" class="nav-item">📽️ TREINAMENTOS</a>
-      <a href="#formularios" class="nav-item">💻 FORMULÁRIOS</a>
-      <a href="#documentos" class="nav-item">📋 DOCUMENTOS</a>
-    </div>
-  </nav>
+  <div class="nav-container">
+    <nav class="nav-menu">
+      <a href="#avisos" class="nav-item active"><span><i class="fas fa-bullhorn"></i> Avisos</span></a>
+      <a href="#treinamentos" class="nav-item"><span><i class="fas fa-graduation-cap"></i> Treinamentos</span></a>
+      <a href="#formularios" class="nav-item"><span><i class="fas fa-laptop-code"></i> Formulários</span></a>
+      <a href="#documentos" class="nav-item"><span><i class="fas fa-folder-open"></i> Documentos</span></a>
+    </nav>
+  </div>
 
   <main>
-    <!-- HERO -->
-    <section class="hero-section">
-      <h1 class="hero-title">PORTAL DO VIGILANTE</h1>
-      <p class="hero-subtitle">EQUIPE DE VIGILÂNCIA E SEGURANÇA</p>
-      <div class="hero-divider"></div>
+    <section class="hero reveal">
+      <div class="hero-badge">
+        <i class="fas fa-shield-alt"></i>
+        Sistema de Gestão Operacional
+      </div>
+      <h2>PORTAL DO <span>VIGILANTE</span></h2>
+      <p>Central de recursos e comunicação da equipe de vigilância e segurança patrimonial</p>
     </section>
 
-    <!-- SEÇÃO AVISOS -->
-    <section id="avisos" class="section-container">
-      <div class="news-section">
+    <section id="avisos" class="reveal">
+      <div class="section-header">
+        <span class="section-number">01</span>
+        <h2 class="section-title">Avisos Importantes</h2>
+        <div class="section-line"></div>
+      </div>
+      
+      <div class="news-container">
         <div class="news-header">
-          <div class="news-icon">📢</div>
-          <h2 class="news-title">AVISOS IMPORTANTES</h2>
+          <i class="fas fa-broadcast-tower"></i>
+          <h3>Comunicados Oficiais</h3>
         </div>
         
-        <div class="news-content">
-          <div class="accordion-item">
-            <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
-              <div class="accordion-title"><span>⚠️</span> JUSTIFICATIVAS DE PONTO</div>
-              <div class="accordion-badges">
-                <span class="news-badge urgent">URGENTE</span>
-                <span class="news-date">23 JAN 2026</span>
-                <span class="accordion-icon">▼</span>
+        <div class="accordion-list">
+          <div class="accordion-item active">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Justificativas de Ponto</span>
+              </div>
+              <div class="accordion-meta">
+                <span class="badge urgent">Urgente</span>
+                <span class="accordion-date">23 JAN 2026</span>
+                <i class="fas fa-chevron-down accordion-icon"></i>
               </div>
             </div>
-            <div class="accordion-content"><div class="accordion-content-inner">NÃO ESQUEÇA DE BATER SEU PONTO CORRETAMENTE NO NEXTI! PEÇA A APROVAÇÃO DAS JUSTIFICATIVAS AO SEU SUPERVISOR EM APROVAÇÃO DE PONTO⏱️.</div></div>
+            <div class="accordion-content">
+              <div class="accordion-body">
+                Não esqueça de bater seu ponto corretamente no Nexti! Todas as justificativas devem ser aprovadas pelo supervisor através do sistema de aprovação de ponto. Pontos não justificados em até 48h serão considerados falta.
+              </div>
+            </div>
           </div>
 
           <div class="accordion-item">
-            <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
-              <div class="accordion-title"><span>⏰</span> COBERTURAS</div>
-              <div class="accordion-badges">
-                <span class="news-badge info">INFO</span>
-                <span class="news-date">22 JAN 2026</span>
-                <span class="accordion-icon">▼</span>
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title">
+                <i class="fas fa-clock"></i>
+                <span>Coberturas de Posto</span>
+              </div>
+              <div class="accordion-meta">
+                <span class="badge info">Info</span>
+                <span class="accordion-date">22 JAN 2026</span>
+                <i class="fas fa-chevron-down accordion-icon"></i>
               </div>
             </div>
-            <div class="accordion-content"><div class="accordion-content-inner">NÃO ESQUEÇA DE REGISTRAR TODAS AS COBERTURAS EM [ COBERTURA DE POSTO ].</div></div>
+            <div class="accordion-content">
+              <div class="accordion-body">
+                É obrigatório o registro de todas as coberturas realizadas no formulário específico. O não registro pode acarretar em não reconhecimento das horas trabalhadas.
+              </div>
+            </div>
           </div>
 
           <div class="accordion-item">
-            <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
-              <div class="accordion-title"><span>✅</span> BOA APRESENTAÇÃO</div>
-              <div class="accordion-badges">
-                <span class="news-badge success">SUCESSO</span>
-                <span class="news-date">24 JAN 2026</span>
-                <span class="accordion-icon">▼</span>
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="accordion-title">
+                <i class="fas fa-user-tie"></i>
+                <span>Padrão de Apresentação</span>
+              </div>
+              <div class="accordion-meta">
+                <span class="badge success">Lembrete</span>
+                <span class="accordion-date">24 JAN 2026</span>
+                <i class="fas fa-chevron-down accordion-icon"></i>
               </div>
             </div>
-            <div class="accordion-content"><div class="accordion-content-inner">MANTENHA O UNIFORME COMPLETO, HIGIENE EM DIA, POSTURA PROFISSIONAL E ATENÇÃO TOTAL AO SERVIÇO.</div></div>
+            <div class="accordion-content">
+              <div class="accordion-body">
+                Mantenha o uniforme completo e em boas condições, higiene pessoal em dia, postura profissional e atenção total ao serviço. A imagem da empresa depende de cada um de nós.
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SEÇÃO TREINAMENTOS -->
-    <section id="treinamentos" class="section-container">
-      <div class="section-header"><h2 class="section-title">Treinamentos</h2><div class="section-divider"></div></div>
-      <div class="training-grid">
-        <a href="https://youtu.be/vM7KdDFyegg" target="_blank" class="btn-action">📽️ TREINAMENTO NEXTI</a>
-        <a href="https://youtu.be/NHUX3T6rBAs" target="_blank" class="btn-action">📽️ VIDEO PORTAL DO VIGILANTE</a>
+    <section id="treinamentos" class="reveal">
+      <div class="section-header">
+        <span class="section-number">02</span>
+        <h2 class="section-title">Treinamentos</h2>
+        <div class="section-line"></div>
       </div>
-    </section>
+      
+      <div class="cards-grid">
+        <a href="https://youtu.be/vM7KdDFyegg" target="_blank" class="card training-card">
+          <div class="card-icon">
+            <i class="fas fa-play"></i>
+          </div>
+          <div class="card-content">
+            <h3>Treinamento Nexti</h3>
+            <p>Aprenda a utilizar o sistema de controle de ponto e aprovações de forma completa e eficiente.</p>
+          </div>
+          <div class="card-arrow">
+            <span>Assistir Agora</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+        </a>
 
-    <!-- SEÇÃO FORMULÁRIOS -->
-    <section id="formularios" class="section-container">
-      <div class="section-header"><h2 class="section-title">💻 Formulários</h2><div class="section-divider"></div></div>
-      <div class="forms-grid">
-        <a href="https://forms.gle/2XYZbzCXUCfN6kMN8" target="_blank" class="form-card">
-          <div class="form-icon">✅</div>
-          <h3 class="form-title">APROVAÇÃO DE PONTO</h3>
-          <p class="form-desc">Aprovação das Justificativas de Ponto</p>
-          <span class="form-btn">ACESSAR →</span>
-        </a>
-        <a href="https://forms.gle/Me9bJNG99LwJWyyt7" target="_blank" class="form-card">
-          <div class="form-icon">✏️</div>
-          <h3 class="form-title">RETIFICAÇÃO</h3>
-          <p class="form-desc">Corrija Seus Dados</p>
-          <span class="form-btn">ACESSAR →</span>
-        </a>
-        <a href="https://forms.gle/XZ8RyCDG1oeHkN6aA" target="_blank" class="form-card">
-          <div class="form-icon">👕</div>
-          <h3 class="form-title">UNIFORMES</h3>
-          <p class="form-desc">Solicite Seu Uniforme</p>
-          <span class="form-btn">ACESSAR →</span>
-        </a>
-        <a href="https://forms.gle/y18CgNWdPEDrhYQm9" target="_blank" class="form-card">
-          <div class="form-icon">⏰</div>
-          <h3 class="form-title">COBERTURA DE POSTO</h3>
-          <p class="form-desc">Registre Suas Coberturas</p>
-          <span class="form-btn">ACESSAR →</span>
+        <a href="https://youtu.be/NHUX3T6rBAs" target="_blank" class="card training-card">
+          <div class="card-icon">
+            <i class="fas fa-video"></i>
+          </div>
+          <div class="card-content">
+            <h3>Tutorial do Portal</h3>
+            <p>Videoaula completa sobre como navegar e utilizar todas as funcionalidades do Portal do Vigilante.</p>
+          </div>
+          <div class="card-arrow">
+            <span>Assistir Agora</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
         </a>
       </div>
     </section>
 
-    <!-- SEÇÃO DOCUMENTOS (DIRETRIZES E ESCALAS) -->
-    <section id="documentos" class="section-container">
-      <div class="section-header"><h2 class="section-title">DOCUMENTAÇÃO</h2><div class="section-divider"></div></div>
-      <div class="training-grid">
-        <a href="https://drive.google.com/drive/folders/1Sf-g73Pl8w_DZ6qvSbvO2_eYnq3ZSxzt?usp=sharing" target="_blank" class="btn-action">📋 ACESSAR DIRETRIZES</a>
+    <section id="formularios" class="reveal">
+      <div class="section-header">
+        <span class="section-number">03</span>
+        <h2 class="section-title">Formulários Digitais</h2>
+        <div class="section-line"></div>
       </div>
+      
+      <div class="cards-grid">
+        <a href="https://forms.gle/2XYZbzCXUCfN6kMN8" target="_blank" class="card">
+          <div class="card-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="card-content">
+            <h3>Aprovação de Ponto</h3>
+            <p>Formulário para supervisores aprovarem justificativas de ponto dos vigilantes.</p>
+          </div>
+          <div class="card-arrow">
+            <span>Acessar</span>
+            <i class="fas fa-external-link-alt"></i>
+          </div>
+        </a>
 
-      <div class="section-container">
-        <div class="section-header"><h2 class="section-title"></h2><div class=""></div></div>
-        <div class="training-grid">
-          <a href="https://drive.google.com/drive/folders/1WqHwe2Z-ZdQRLWWj7MhdWtmbktsgeWPW?usp=sharing" target="_blank" class="btn-action">📋 ACESSAR ESCALAS ACF</a>
-        </div>
+        <a href="https://forms.gle/Me9bJNG99LwJWyyt7" target="_blank" class="card">
+          <div class="card-icon">
+            <i class="fas fa-edit"></i>
+          </div>
+          <div class="card-content">
+            <h3>Retificação de Dados</h3>
+            <p>Solicite correções em seus dados cadastrais ou informações do sistema.</p>
+          </div>
+          <div class="card-arrow">
+            <span>Acessar</span>
+            <i class="fas fa-external-link-alt"></i>
+          </div>
+        </a>
+
+        <a href="https://forms.gle/XZ8RyCDG1oeHkN6aA" target="_blank" class="card">
+          <div class="card-icon">
+            <i class="fas fa-tshirt"></i>
+          </div>
+          <div class="card-content">
+            <h3>Solicitação de Uniformes</h3>
+            <p>Peça novos uniformes, trocas de tamanho ou reposição de itens danificados.</p>
+          </div>
+          <div class="card-arrow">
+            <span>Acessar</span>
+            <i class="fas fa-external-link-alt"></i>
+          </div>
+        </a>
+
+        <a href="https://forms.gle/y18CgNWdPEDrhYQm9" target="_blank" class="card">
+          <div class="card-icon">
+            <i class="fas fa-user-clock"></i>
+          </div>
+          <div class="card-content">
+            <h3>Cobertura de Posto</h3>
+            <p>Registre suas coberturas extras e horas adicionais trabalhadas.</p>
+          </div>
+          <div class="card-arrow">
+            <span>Acessar</span>
+            <i class="fas fa-external-link-alt"></i>
+          </div>
+        </a>
       </div>
     </section>
 
-    <!-- INFO -->
-    <section class="section-container" style="background: rgba(13, 20, 36, 0.5); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color);">
-      <div class="info-grid">
-        <div class="info-item">
-          <div class="info-icon-small">🔒</div>
-          <p class="info-label">ACESSO SEGURO</p>
+    <section id="documentos" class="reveal">
+      <div class="section-header">
+        <span class="section-number">04</span>
+        <h2 class="section-title">Documentação</h2>
+        <div class="section-line"></div>
+      </div>
+      
+      <div class="cards-grid">
+        <a href="https://drive.google.com/drive/folders/1Sf-g73Pl8w_DZ6qvSbvO2_eYnq3ZSxzt?usp=sharing" target="_blank" class="card doc-card">
+          <div class="card-icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <div class="card-content">
+            <h3>Diretrizes Operacionais</h3>
+            <p>Acesse manuais, procedimentos e normas técnicas de segurança patrimonial.</p>
+          </div>
+          <div class="card-arrow">
+            <span>Abrir Pasta</span>
+            <i class="fas fa-folder-open"></i>
+          </div>
+        </a>
+
+        <a href="https://drive.google.com/drive/folders/1WqHwe2Z-ZdQRLWWj7MhdWtmbktsgeWPW?usp=sharing" target="_blank" class="card doc-card">
+          <div class="card-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <div class="card-content">
+            <h3>Escalas ACF</h3>
+            <p>Consulte as escalas de trabalho atualizadas da equipe de vigilância ACF.</p>
+          </div>
+          <div class="card-arrow">
+            <span>Abrir Pasta</span>
+            <i class="fas fa-folder-open"></i>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="info-section reveal">
+      <div class="info-item">
+        <div class="info-icon">
+          <i class="fas fa-lock"></i>
         </div>
-        <div class="info-item">
-          <div class="info-icon-small">⏱️</div>
-          <p class="info-label">DISPONÍVEL 24/7</p>
+        <div class="info-label">Acesso Seguro</div>
+        <div class="info-desc">Conexão criptografada</div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">
+          <i class="fas fa-server"></i>
         </div>
-        <div class="info-item">
-          <div class="info-icon-small">🎧</div>
-          <p class="info-label">SUPORTE ATIVO</p>
+        <div class="info-label">Disponível 24/7</div>
+        <div class="info-desc">Acesso ininterrupto</div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">
+          <i class="fas fa-headset"></i>
         </div>
+        <div class="info-label">Suporte Ativo</div>
+        <div class="info-desc">Assistência imediata</div>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="footer-main">🛡️ Portal Oficial de Vigilância 🛡️</div>
-    <div>Supervisor Douglas Jelinsky | © 2026 Orbenk Segurança Patrimonial</div>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-shield-alt"></i> ORBENK
+      </div>
+      <div class="footer-text">Portal Oficial de Vigilância e Segurança Patrimonial</div>
+      <div class="footer-text">Supervisor Douglas Jelinsky</div>
+      <div class="footer-copy">
+        © 2026 Orbenk Segurança Patrimonial. Todos os direitos reservados.
+      </div>
+    </div>
   </footer>
 
   <script>
-    // Atualizar o item do menu ativo ao fazer scroll
+    // Header scroll effect
+    const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
-      const sections = document.querySelectorAll('section[id]');
-      const navItems = document.querySelectorAll('.nav-item');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Accordion functionality
+    function toggleAccordion(element) {
+      const item = element.parentElement;
+      const wasActive = item.classList.contains('active');
       
-      let currentSection = '';
-      
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        
-        if (window.pageYOffset >= sectionTop - 200) {
-          currentSection = section.getAttribute('id');
-        }
+      // Close all items
+      document.querySelectorAll('.accordion-item').forEach(acc => {
+        acc.classList.remove('active');
       });
       
+      // Open clicked item if it wasn't active
+      if (!wasActive) {
+        item.classList.add('active');
+      }
+    }
+
+    // Active navigation on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navItems = document.querySelectorAll('.nav-item');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.pageYOffset >= sectionTop - 300) {
+          current = section.getAttribute('id');
+        }
+      });
+
       navItems.forEach(item => {
         item.classList.remove('active');
-        if (item.getAttribute('href') === '#' + currentSection) {
+        if (item.getAttribute('href') === '#' + current) {
           item.classList.add('active');
+        }
+      });
+    });
+
+    // Reveal animations on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Smooth scroll for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
         }
       });
     });
