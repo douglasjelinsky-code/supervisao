@@ -903,7 +903,90 @@
         transition-duration: 0.01ms !important;
       }
     }
+  
+    /* Developer Section */
+    .developer-section {
+      margin: 2rem auto;
+      padding: 1.25rem;
+      background: linear-gradient(135deg, var(--bg-elevated) 0%, rgba(0, 102, 255, 0.05) 100%);
+      border: 1px solid var(--border-active);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      max-width: 350px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .developer-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gradient-hero);
+    }
+
+    .developer-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary);
+      box-shadow: 0 0 20px var(--primary-glow), 0 0 40px rgba(0, 102, 255, 0.2);
+      flex-shrink: 0;
+      background: var(--bg-surface);
+    }
+
+    .developer-info {
+      text-align: left;
+      flex: 1;
+    }
+
+    .developer-label {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .developer-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 0.2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .developer-role {
+      font-size: 0.8rem;
+      color: var(--secondary);
+      margin-top: 0.2rem;
+      font-weight: 500;
+    }
+
+    .developer-badge {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
   </style>
+<base target="_blank">
 </head>
 <body>
   <div class="ambient-bg"></div>
@@ -1210,6 +1293,17 @@
     </div>
     <div class="footer-text">Portal Oficial de Vigilância</div>
     <div class="footer-text">Supervisor Douglas Jelinsky</div>
+    
+    <div class="developer-section">
+      <div class="developer-badge"></div>
+      <img src="data:image/jpeg;base64,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" alt="Douglas Jelinsky - Desenvolvedor" class="developer-avatar" onerror="this.src='https://via.placeholder.com/64/0066ff/ffffff?text=DJ'">
+      <div class="developer-info">
+        <div class="developer-label">Desenvolvido por</div>
+        <div class="developer-name">Douglas Jelinsky</div>
+        <div class="developer-role">Supervisor & Desenvolvedor</div>
+      </div>
+    </div>
+
     <div class="footer-copy">
       © 2026 Orbenk Segurança Patrimonial
     </div>
